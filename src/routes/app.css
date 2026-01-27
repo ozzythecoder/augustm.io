@@ -1,0 +1,65 @@
+/* Tailwind */
+@import "tailwindcss";
+@plugin "@tailwindcss/typography";
+
+@import "./syntax.css";
+
+/* Skeleton UI */
+@import "@skeletonlabs/skeleton";
+@import "@skeletonlabs/skeleton-svelte";
+@import "@skeletonlabs/skeleton/themes/crimson";
+
+/* Fonts */
+@import "@fontsource-variable/alegreya";
+@import "@fontsource-variable/overpass-mono";
+@import "@fontsource-variable/hanken-grotesk";
+
+[data-theme="crimson"] {
+    --heading-font-family: "Alegreya Variable", serif;
+    --base-font-family: "Hanken Grotesk Variable", monospace;
+
+    #container {
+        background-image:
+            radial-gradient(
+                at 14% 25%,
+                color-mix(in oklab, var(--color-primary-700) 30%, transparent)
+                    0px,
+                transparent 30%
+            ),
+            radial-gradient(
+                at 84% 85%,
+                color-mix(in oklab, var(--color-teal-500) 15%, transparent) 0px,
+                transparent 30%
+            );
+        background-attachment: fixed;
+    }
+
+    .preset-glass-neutral {
+        background: color-mix(
+            in oklab,
+            var(--color-surface-950) 30%,
+            transparent
+        );
+        box-shadow: 0 0px 30px
+            color-mix(in oklab, var(--color-surface-950) 30%, transparent) inset;
+        backdrop-filter: blur(16px);
+    }
+
+    date {
+        @apply italic text-primary-700;
+    }
+}
+
+@utility prose-blog {
+    @apply prose prose-invert max-w-[90ch] prose-lg prose-li:my-1 prose-p:my-4 mx-auto pb-16;
+}
+
+body {
+    h1,
+    h2,
+    h3,
+    h4 {
+        font-family: var(--heading-font-family);
+        @apply font-semibold tracking-tight;
+    }
+}
