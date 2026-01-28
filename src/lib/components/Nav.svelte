@@ -15,11 +15,11 @@
             text: "Home",
         },
         {
-            href: "/#",
+            href: "/about",
             text: "About",
         },
         {
-            href: "/#",
+            href: "/projects",
             text: "Projects",
         },
         {
