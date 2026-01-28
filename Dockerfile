@@ -6,5 +6,4 @@ COPY . .
 RUN deno task build
 
 FROM caddy:2-alpine
-COPY --from=build /augustm.io/build /var/www/html
-EXPOSE 80 443
+COPY --from=build /augustm.io/build /var/www/augustm

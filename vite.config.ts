@@ -7,9 +7,6 @@ import type { Plugin } from "vite";
 
 export default defineConfig({
     plugins: [tailwindcss(), sveltekit(), svxLintPlugin()],
-    build: {
-        outDir: "dist",
-    },
     test: {
         expect: { requireAssertions: true },
         projects: [
