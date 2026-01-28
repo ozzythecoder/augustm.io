@@ -8,11 +8,17 @@
 
     const { data }: PageProps = $props();
 
-    const activeTag = $derived(page.url.searchParams.get("tag"));
-    const sort = $derived(page.url.searchParams.get("sort"));
+    let activeTag = $state<string | null>(null);
+    let sort = $state<string | null>(null);
+
+    // wrapped in effect to assist with prerendering
+    $effect(() => {
+        activeTag = page.url.searchParams.get("tag");
+        sort = page.url.searchParams.get("sort");
+    });
 
     const filteredPosts = $derived(
-        activeTag
+        !!activeTag
             ? data.posts.filter((p) =>
                   p.data.metadata.tags?.includes(activeTag),
               )
@@ -55,7 +61,7 @@
             >
             {#each allTags as tag}
                 <a
-                    href={tag === activeTag ? 'blog' : `/blog?tag=${tag}`}
+                    href={tag === activeTag ? "blog" : `/blog?tag=${tag}`}
                     data-active={activeTag === tag}
                     class="chip preset-outlined-primary-200-800 data-[active='true']:preset-filled-primary-200-800"
                     >{tag}</a
@@ -89,7 +95,9 @@
                         title={post.data.metadata.title}
                         className="card card-hover cursor-pointer w-full preset-glass-neutral p-4"
                     >
-                        <date class="italic text-surface-200">{formatDate(post.data.metadata.date)}</date>
+                        <date class="italic text-surface-200"
+                            >{formatDate(post.data.metadata.date)}</date
+                        >
                         <p>{post.data.metadata.description}</p>
                     </Card>
                 {/each}
