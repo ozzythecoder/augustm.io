@@ -53,6 +53,11 @@ const rules = [
         check: (fm) => !fm.tags || fm.tags.length <= 5,
         message: "A post cannot have more than 5 tags.",
     },
+    {
+        name: "tag-no-all",
+        check: (fm) => !fm.tags || !fm.tags?.some(t => t.toLowerCase() === "all"),
+        message: '"All" is an invalid tag name.',
+    },
 ];
 
 export async function lint() {

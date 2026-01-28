@@ -51,7 +51,7 @@
                 href="/blog"
                 data-active={!activeTag}
                 class="chip preset-outlined-success-200-800 data-[active='true']:preset-filled-success-200-800"
-                >All</a
+                >all</a
             >
             {#each allTags as tag}
                 <a
