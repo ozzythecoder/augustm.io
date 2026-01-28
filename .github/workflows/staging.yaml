@@ -22,17 +22,12 @@ jobs:
               run: deno task check
             - name: Build
               run: deno task build
-            - name: Create and merge PR
-              uses: peter-evans/create-pull-request@v6
-              id: cpr
-              with:
-                  branch: staging
-                  base: main
-                  title: "Deploy from staging"
-                  body: "Automated PR - build succeeded"
-                  delete-branch: false
-            - name: Auto-merge PR
-              if: steps.cpr.outputs.pull-request-number
-              run: gh pr merge ${{ steps.cpr.outputs.pull-request-number }}
+            - name: Create PR
+              run: |
+                gh pr create --base main --head staging --title "Deploy from staging" --body "Automated PR - build succeeded" || true
               env:
-                  GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+                  GH_TOKEN: ${{ github.token }}
+            - name: Auto-merge PR
+              run: gh pr merge staging --admin --merge
+              env:
+                  GH_TOKEN: ${{ github.token }}

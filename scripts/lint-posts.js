@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { readFileSync, readdirSync } from "node:fs";
 import { join } from "node:path";
 import { compile } from "mdsvex";

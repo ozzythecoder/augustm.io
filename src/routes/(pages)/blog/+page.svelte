@@ -20,7 +20,7 @@
     const filteredPosts = $derived(
         !!activeTag
             ? data.posts.filter((p) =>
-                  p.data.metadata.tags?.includes(activeTag),
+                  p.data.metadata.tags?.includes(activeTag as string),
               )
             : data.posts,
     );
