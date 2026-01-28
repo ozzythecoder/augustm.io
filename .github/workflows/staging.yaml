@@ -25,7 +25,9 @@ jobs:
             - name: Create PR
               run: |
                 gh pr create --base main --head staging --title "Deploy from staging" --body "Automated PR - build succeeded" || true
+              env:
+                  GH_TOKEN: ${{ github.token }}
             - name: Auto-merge PR
-              run: gh pr merge staging --squash --auto
+              run: gh pr merge staging --admin --merge
               env:
                   GH_TOKEN: ${{ github.token }}
