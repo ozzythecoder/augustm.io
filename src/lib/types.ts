@@ -1,10 +1,10 @@
 import type { Component } from "svelte";
 
-interface PostMetadata extends Record<string, unknown> {
+export interface PostMetadata extends Record<string, unknown> {
     title: string;
     date: string;
     description: string;
-    tags?: string;
+    tags?: Array<string>;
 }
 
 export interface Post {
