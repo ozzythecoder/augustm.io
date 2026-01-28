@@ -1,0 +1,31 @@
+name: Deploy to Production
+
+on:
+    push:
+        branches:
+            - main
+
+jobs:
+    deploy:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v4
+            - uses: denoland/setup-deno@v2
+              with:
+                  deno-version: v2.x
+
+            - name: Install dependencies
+              run: deno install
+
+            - name: Build
+              run: deno task build
+
+            - name: Deploy via rsync
+              uses: burnett01/rsync-deployments@6.0.0
+              with:
+                  switches: -azvr --delete
+                  path: build/
+                  remote_path: /var/www/augustm.io/
+                  remote_host: ${{ secrets.DROPLET_HOST }}
+                  remote_user: ${{ secrets.DROPLET_USER }}
+                  remote_key: ${{ secrets.DROPLET_SSH_KEY }}

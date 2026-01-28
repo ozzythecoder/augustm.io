@@ -1,0 +1,38 @@
+name: Staging to deploy
+
+on:
+    push:
+        branches:
+            - staging
+
+jobs:
+    build-and-pr:
+        runs-on: ubuntu-latest
+        permissions:
+            contents: write
+            pull-requests: write
+        steps:
+            - uses: actions/checkout@v4
+            - uses: denoland/setup-deno@v2
+              with:
+                  deno-version: v2.x
+            - name: Install dependencies
+              run: deno install
+            - name: Run checks
+              run: deno task check
+            - name: Build
+              run: deno task build
+            - name: Create and merge PR
+              uses: peter-evans/create-pull-request@v6
+              id: cpr
+              with:
+                  branch: staging
+                  base: main
+                  title: "Deploy from staging"
+                  body: "Automated PR - build succeeded"
+                  delete-branch: false
+            - name: Auto-merge PR
+              if: steps.cpr.outputs.pull-request-number
+              run: gh pr merge ${{ steps.cpr.outputs.pull-request-number }}
+              env:
+                  GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
