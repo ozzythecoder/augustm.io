@@ -2,8 +2,6 @@
 @import "tailwindcss";
 @plugin "@tailwindcss/typography";
 
-@import "./syntax.css";
-
 /* Skeleton UI */
 @import "@skeletonlabs/skeleton";
 @import "@skeletonlabs/skeleton-svelte";
@@ -13,10 +11,15 @@
 @import "@fontsource-variable/alegreya";
 @import "@fontsource-variable/overpass-mono";
 @import "@fontsource-variable/hanken-grotesk";
+@import "@fontsource/monaspace-xenon";
+
+/* Syntax highlighting for code blocks */
+@import "./syntax.css";
 
 [data-theme="crimson"] {
     --heading-font-family: "Alegreya Variable", serif;
     --base-font-family: "Hanken Grotesk Variable", monospace;
+    --monospace-font-family: "Monaspace Xenon", monospace;
 
     #container {
         background-image:
