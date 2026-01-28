@@ -6,14 +6,10 @@
     };
 
     const getActiveStyle = (url: string) => {
-        return isActive(url) ? "text-surface-500 group-hover:text-" : "";
+        return isActive(url) ? "text-primary-200" : "";
     };
 
     const links = [
-        {
-            href: "/",
-            text: "Home",
-        },
         {
             href: "/about",
             text: "About",
@@ -29,8 +25,9 @@
     ];
 </script>
 
-<nav class="mb-8">
-    <ul class="flex justify-evenly items-center">
+<nav class="mb-8 flex justify-between">
+    <a data-active={isActive("/")} href="/" class="h4 data-[active='true']:text-primary-200 hover:text-primary-200 hover:underline">augustm</a>
+    <ul class="flex justify-between gap-8 items-center">
         {#each links as link}
             <li class="text-lg group">
                 <a
