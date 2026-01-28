@@ -8,6 +8,6 @@
     let { children }: Props = $props();
 </script>
 
-<div class={`mx-auto max-w-[90ch] ${DEBUG && "border-accent border-2"}`}>
+<div class={`md:mx-auto px-4 max-w-[90ch] ${DEBUG && "border-accent border-2"}`}>
     {@render children()}
 </div>

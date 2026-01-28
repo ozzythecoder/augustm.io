@@ -35,6 +35,7 @@
                 transparent 30%
             );
         background-attachment: fixed;
+        
     }
 
     .preset-glass-neutral {
@@ -48,13 +49,10 @@
         backdrop-filter: blur(16px);
     }
 
-    date {
-        @apply italic text-primary-700;
-    }
 }
 
 @utility prose-blog {
-    @apply prose prose-invert max-w-[90ch] prose-lg prose-li:my-1 prose-p:my-4 mx-auto pb-16;
+    @apply prose prose-invert max-w-[90ch] prose-lg prose-li:my-1 prose-p:my-4 mx-auto pb-12;
 }
 
 body {
@@ -65,4 +63,8 @@ body {
         font-family: var(--heading-font-family);
         @apply font-semibold tracking-tight;
     }
+    
+    /* prevent layout shift from scrollbar gutter */
+    width: 100vw;
+    left: calc((100vw - 100%) / 2);
 }
