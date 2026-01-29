@@ -10,10 +10,13 @@
     },
     "languages": {
         "TypeScript": {
-            "language_servers": [
-                "deno",
-                "!vtsls"
-            ]
-        }
-    }
+            "language_servers": ["deno", "!vtsls"],
+        },
+        "JavaScript": {
+            "language_servers": ["deno", "!vtsls"],
+        },
+        "Svelte": {
+            "language_servers": ["svelte-language-server", "!vtsls"],
+        },
+    },
 }
