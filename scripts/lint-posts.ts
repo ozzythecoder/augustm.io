@@ -1,28 +1,16 @@
-// @ts-nocheck
-import { readFileSync, readdirSync } from "node:fs";
-import { join } from "node:path";
+import { join } from "@std/path";
 import { compile } from "mdsvex";
-import { exit } from "node:process";
-import { error, log } from "node:console";
+import type { PostMetadata } from "../src/lib/types.ts";
 
-/**
- * @typedef { import('../src/lib/types').PostMetadata } PostMetadata
- */
-
-/**
- * @typedef Rule {Object}
- * @property name {string}
- * @property check {(fm: PostMetadata) => boolean}
- * @property message {string}
- */
+interface Rule {
+    name: string;
+    check: (fm: PostMetadata) => boolean;
+    message: string;
+}
 
 const POSTS_DIR = "src/posts";
 
-/**
- * Rules to lint against
- * @type Array<Rule>
- */
-const rules = [
+const rules: Array<Rule> = [
     {
         name: "title-required",
         check: (fm) => !!(fm.title && fm.title !== ""),
@@ -56,23 +44,28 @@ const rules = [
     },
     {
         name: "tag-no-all",
-        check: (fm) => !fm.tags || !fm.tags?.some(t => t.toLowerCase() === "all"),
+        check: (fm) =>
+            !fm.tags || !fm.tags?.some((t) => t.toLowerCase() === "all"),
         message: '"All" is an invalid tag name.',
     },
 ];
 
 export async function lint() {
-    log(`\nLinting svx files in ${POSTS_DIR}...`);
-    const files = readdirSync(POSTS_DIR).filter((f) => f.endsWith(".svx"));
+    console.log(`\nLinting svx files in ${POSTS_DIR}...`);
+    const files = Array.from(Deno.readDirSync(POSTS_DIR))
+        .filter((entry) => entry.isFile && entry.name.endsWith(".svx"))
+        .map((entry) => entry.name);
     let hasErrors = false;
-    /** @type {string[]} */
-    const errors = [];
+    const errors: Array<string> = [];
 
     for (const file of files) {
-        const content = readFileSync(join(POSTS_DIR, file), "utf-8");
-        const {
-            data: { fm },
-        } = await compile(content);
+        const content = Deno.readTextFileSync(join(POSTS_DIR, file));
+        const compiled = await compile(content);
+        if (!compiled || !compiled.data || !compiled.data.fm) {
+            console.error("Failed to compile svx file:", file);
+            return { passed: false, errors: [""] };
+        }
+        const fm = compiled.data.fm as PostMetadata
 
         for (const rule of rules) {
             if (!rule.check(fm)) {
@@ -85,14 +78,14 @@ export async function lint() {
     return { passed: !hasErrors, errors };
 }
 
-if (process.env.STANDALONE_SCRIPT === "1") {
+if (Deno.env.get("STANDALONE_SCRIPT") === "1") {
     const { passed, errors } = await lint();
     if (!passed) {
-        error(errors.join("\n"));
-        log("\n❌ Linting failed\n");
-        exit(1);
+        console.error(errors.join("\n"));
+        console.log("\n❌ Linting failed\n");
+        Deno.exit(1);
     } else {
-        log("👍 All posts linted successfully\n");
-        exit(0);
+        console.log("👍 All posts linted successfully\n");
+        Deno.exit(0);
     }
 }
