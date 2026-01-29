@@ -12,7 +12,7 @@
     // buncha code to make block link accessible & allow nested links
     // 
     let cardEl: HTMLDivElement;
-    let linkEl: HTMLAnchorElement;
+    let linkEl = $state<HTMLAnchorElement>() 
 
     $effect(() => {
         function clickLink() {

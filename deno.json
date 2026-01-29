@@ -1,0 +1,9 @@
+{
+    "imports": {
+        "@std/path": "jsr:@std/path@^1"
+    },
+    "compilerOptions": {
+        "lib": ["deno.ns", "deno.window"],
+        "types": ["https://deno.land/x/pkg@1.0.0/types.d.ts"]
+    }
+}
