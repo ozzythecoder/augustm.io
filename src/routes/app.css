@@ -35,7 +35,6 @@
                 transparent 30%
             );
         background-attachment: fixed;
-        
     }
 
     .preset-glass-neutral {
@@ -48,7 +47,6 @@
             color-mix(in oklab, var(--color-surface-950) 30%, transparent) inset;
         backdrop-filter: blur(16px);
     }
-
 }
 
 @utility prose-blog {
@@ -63,8 +61,12 @@ body {
         font-family: var(--heading-font-family);
         @apply font-semibold tracking-tight;
     }
-    
+
     /* prevent layout shift from scrollbar gutter */
     width: 100vw;
     left: calc((100vw - 100%) / 2);
+
+    li > ul {
+        margin-block: 0;
+    }
 }
