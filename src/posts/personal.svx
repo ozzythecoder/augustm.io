@@ -1,9 +1,0 @@
----
-title: "Personal Blog"
-date: 1/27/2026
-description: "A placeholder for a personal article"
-tags: 
-    - personal
----
-
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque sollicitudin massa orci, id sagittis magna porttitor quis. Nam vel suscipit ligula, sed venenatis justo. Nullam tristique ultricies mauris quis gravida. Phasellus venenatis arcu vitae tortor blandit mattis. Pellentesque dignissim leo vel tortor dictum, sed rhoncus dolor consectetur. Morbi id lectus sit amet leo interdum rutrum egestas at tortor. Aenean at congue elit.
