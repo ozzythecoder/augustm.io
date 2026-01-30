@@ -1,4 +1,5 @@
 <script lang="ts">
+    import { dev } from "$app/environment";
     import Head from "$src/lib/components/Head.svelte";
     import Main from "$src/lib/components/Main.svelte";
     import Prose from "$src/lib/ui/Prose.svelte";
@@ -9,6 +10,14 @@
 </script>
 
 <Head title={data.metadata.title} />
+
+{#if dev && data.wordCount}
+    <div
+        class="fixed top-0 left-0 right-0 bg-warning-500 text-warning-950 text-center py-1 text-sm font-mono z-50"
+    >
+        Word count: {data.wordCount}
+    </div>
+{/if}
 
 <Main>
     <section>

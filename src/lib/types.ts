@@ -11,3 +11,5 @@ export interface Post {
     metadata: PostMetadata;
     default: () => Component;
 }
+
+
