@@ -1,5 +1,5 @@
 lint-svx:
-    STANDALONE_SCRIPT=1 deno -A scripts/lint-posts.js
+    STANDALONE_SCRIPT=1 deno -A scripts/lint-posts.ts
 
 dev:
     just lint-svx

@@ -1,5 +1,5 @@
-import { error } from "@sveltejs/kit";
 import { dev } from "$app/environment";
+import { error } from "@sveltejs/kit";
 import type { PageLoad } from "./$types";
 import type { Post } from "$lib/types";
 
@@ -32,6 +32,13 @@ export const load: PageLoad = async ({ params }) => {
     const postPath = !!svxFileExists ? svxPath : mdPath;
 
     const { metadata, default: Component } = await files[postPath]();
+
+    // keep drafts private in production
+    if (metadata.draft && !dev) {
+        error(404, {
+            message: "Not Found",
+        });
+    }
 
     let wordCount: number | undefined;
     if (dev) {
