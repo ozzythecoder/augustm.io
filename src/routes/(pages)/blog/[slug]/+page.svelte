@@ -30,7 +30,7 @@
                 >
             {/if}
             <h1 class="h1">{data.metadata.title}</h1>
-            <date class="italic text-surface-200"
+            <date class="italic text-surface-800-200"
                 >{formatDate(data.metadata.date)}</date
             >
             <nav class="flex flex-row gap-1 flex-wrap">
@@ -43,7 +43,7 @@
                     </a>
                 {/each}
             </nav>
-            <p class="h4 text-surface-200">{data.metadata.description}</p>
+            <p class="h4 text-surface-800-200">{data.metadata.description}</p>
         </header>
         <Prose>
             <data.Component />
