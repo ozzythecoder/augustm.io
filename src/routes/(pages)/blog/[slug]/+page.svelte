@@ -10,8 +10,7 @@
 </script>
 
 <Head
-    title={data.metadata.title}
-    ogDescription={data.metadata.description}
+    {...data.ogData}
 />
 
 {#if dev && data.wordCount}
