@@ -9,7 +9,11 @@
     const { data }: PageProps = $props();
 </script>
 
-<Head title={data.metadata.title} />
+<Head
+    title={data.metadata.title}
+    metaDescription={data.metadata.description}
+    image="/android-chrome-512x512.png"
+/>
 
 {#if dev && data.wordCount}
     <div
