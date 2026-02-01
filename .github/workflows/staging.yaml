@@ -8,6 +8,8 @@ on:
 jobs:
     build-and-pr:
         runs-on: ubuntu-latest
+        env:
+            PUBLIC_BASE_URL: https://www.augustm.io/
         permissions:
             contents: write
             pull-requests: write
