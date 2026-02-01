@@ -11,8 +11,7 @@
 
 <Head
     title={data.metadata.title}
-    metaDescription={data.metadata.description}
-    image="/android-chrome-512x512.png"
+    ogDescription={data.metadata.description}
 />
 
 {#if dev && data.wordCount}

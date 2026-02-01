@@ -44,7 +44,7 @@
     ]);
 </script>
 
-<Head title="blog" metaDescription="Yapping about tech, culture, and other things that kinda suck" />
+<Head title="blog" ogDescription="Yapping about tech, culture, and other things that kinda suck" />
 
 <Main>
     <h1 class="h1 my-4 sm:my-8">Blog</h1>
