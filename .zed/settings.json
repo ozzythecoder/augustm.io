@@ -4,19 +4,25 @@
             "settings": {
                 "deno": {
                     "enable": true,
+                    "disablePaths": ["./src/*"]
                 },
             },
         },
+        "vtsls": {
+            "settings": {
+                "enablePaths": ["./src"]
+            }
+        }
     },
     "languages": {
         "TypeScript": {
-            "language_servers": ["deno", "!vtsls"],
+            "language_servers": ["!deno", "vtsls"],
         },
         "JavaScript": {
             "language_servers": ["deno", "!vtsls"],
         },
         "Svelte": {
-            "language_servers": ["svelte-language-server", "!vtsls"],
+            "language_servers": ["svelte-language-server", "tailwindcss-language-server", "!vtsls"],
         },
     },
 }

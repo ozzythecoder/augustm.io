@@ -5,6 +5,7 @@ export interface PostMetadata extends Record<string, unknown> {
     date: string;
     description: string;
     tags?: Array<string>;
+    draft?: boolean;
 }
 
 export interface Post {

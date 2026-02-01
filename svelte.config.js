@@ -9,6 +9,9 @@ const config = {
         alias: {
             "$src/*": "./src/*",
         },
+        prerender: {
+            handleUnseenRoutes: "warn"
+        }
     },
     preprocess: [
         mdsvex({
