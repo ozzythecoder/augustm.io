@@ -1,12 +1,14 @@
 lint-svx:
     STANDALONE_SCRIPT=1 deno -A scripts/lint-posts.ts
 
-dev:
-    just lint-svx
-    deno task dev
-    
-build:
-    docker build -t augustm-io .
+check:
+    deno task check
 
-run:
-    docker run -p 8080:80 augustm-io
+dev: lint-svx check
+    deno task dev
+
+build: lint-svx check
+    deno task build
+
+run: build
+    deno task preview
