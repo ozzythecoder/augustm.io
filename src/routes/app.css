@@ -35,6 +35,11 @@
                 transparent 30%
             );
         background-attachment: fixed;
+
+        /* proper backgorund attachment on iOS */
+        @media only screen and (min-width: 414px) and (max-width: 427px) and (webkit-min-device-pixel-ratio: 2) {
+            background-attachment: scroll;
+        }
     }
 
     .preset-glass-neutral {
