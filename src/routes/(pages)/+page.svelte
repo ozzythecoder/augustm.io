@@ -2,7 +2,7 @@
     import Head from "$src/lib/components/Head.svelte";
 </script>
 
-<Head />
+<Head metaDescription="I make things for humans." />
 <section>
     <header
         class="min-h-[80dvh] flex flex-col items-center justify-center gap-4"
