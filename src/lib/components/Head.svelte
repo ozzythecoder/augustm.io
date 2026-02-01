@@ -15,6 +15,7 @@
 
 <svelte:head>
     <title>{pageTitle}</title>
+    <meta name="og:title" content={pageTitle} />
     <meta name="og:description" content={metaDescription} />
     <meta name="og:image" content={image} />
     <link rel="icon" href="/favicon.ico" />
