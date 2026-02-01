@@ -1,4 +1,5 @@
 import { dev } from "$app/environment";
+import { PUBLIC_BASE_URL } from '$env/static/public';
 import { error } from "@sveltejs/kit";
 import type { PageLoad } from "./$types";
 import type { Post } from "$lib/types";
@@ -58,5 +59,10 @@ export const load: PageLoad = async ({ params }) => {
         metadata,
         Component,
         wordCount,
+        ogData: {
+            ogUrl: `${PUBLIC_BASE_URL}/blog/${slug}`,
+            ogDescription: metadata.description,
+            title: metadata.title
+        }
     };
 };
