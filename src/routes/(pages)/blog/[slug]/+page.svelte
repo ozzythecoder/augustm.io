@@ -22,6 +22,11 @@
 <Main>
     <section>
         <header class="flex flex-col gap-1">
+            {#if data.metadata.draft}
+                <span class="text-surface-950 chip bg-red-500 max-w-fit"
+                    >Draft</span
+                >
+            {/if}
             <h1 class="h1">{data.metadata.title}</h1>
             <date class="italic text-surface-200"
                 >{formatDate(data.metadata.date)}</date
