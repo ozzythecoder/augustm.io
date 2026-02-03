@@ -42,9 +42,10 @@
                 color-mix(
                         in oklab,
                         light-dark(
-                            var(--color-fuchsia-700),
-                            var(--color-teal-700)
-                        ) 20%,
+                                var(--color-fuchsia-700),
+                                var(--color-teal-700)
+                            )
+                            20%,
                         transparent
                     )
                     0px,
@@ -81,7 +82,7 @@
 }
 
 @utility prose-blog {
-    @apply prose dark:prose-invert max-w-[90ch] prose-lg prose-li:my-1 prose-p:my-4 mx-auto pb-12;
+    @apply prose dark:prose-invert max-w-[90ch] prose-lg prose-li:my-1 prose-p:my-4 mx-auto pb-12 prose-hr:my-8 prose-headings:mt-8;
 }
 
 body {

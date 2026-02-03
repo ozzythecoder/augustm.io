@@ -11,3 +11,24 @@
 <article class={"prose-blog"}>
     {@render children()}
 </article>
+
+<style>
+    :global(picture) {
+        position: relative;
+        margin-inline: auto;
+        width: 100%;
+        max-width: 60ch;
+        height: 400px;
+        border: 1px solid var(--color-surface-900);
+        box-shadow: 0 4px 4rem var(--color-surface-700);
+
+        :global(img) {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+    }
+</style>

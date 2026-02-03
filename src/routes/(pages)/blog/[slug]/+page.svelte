@@ -23,7 +23,7 @@
 
 <Main>
     <section>
-        <header class="flex flex-col gap-1">
+        <header class="flex flex-col gap-2 mb-8">
             {#if data.metadata.draft}
                 <span class="text-surface-950 chip bg-red-500 max-w-fit"
                     >Draft</span

@@ -1,6 +1,7 @@
 import { mdsvex } from "mdsvex";
 import adapter from "@sveltejs/adapter-static";
 import rehypeHighlight from "rehype-highlight";
+import { pictureWrapper } from "./rehype/pictureWrapper.js";
 
 /** @type {import('@sveltejs/kit').Config} */
 const config = {
@@ -10,13 +11,13 @@ const config = {
             "$src/*": "./src/*",
         },
         prerender: {
-            handleUnseenRoutes: "warn"
-        }
+            handleUnseenRoutes: "warn",
+        },
     },
     preprocess: [
         mdsvex({
             extensions: [".md", ".svx"],
-            rehypePlugins: [rehypeHighlight],
+            rehypePlugins: [rehypeHighlight, pictureWrapper],
         }),
     ],
     extensions: [".svelte", ".svx", ".md"],
