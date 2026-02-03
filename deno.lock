@@ -1799,6 +1799,7 @@
         "npm:svelte@^5.45.6",
         "npm:tailwindcss@^4.1.17",
         "npm:typescript@^5.9.3",
+        "npm:unist-util-visit@^5.1.0",
         "npm:vite@^7.2.6",
         "npm:vitest-browser-svelte@^2.0.1",
         "npm:vitest@^4.0.15"
