@@ -16,7 +16,7 @@ I'm a big fan of Markdown. A plain-text document standard that can be styled in 
 1. At build time, Svelte renders each post to a static .html file.
     - This step happens specifically because I'm using Svelte's static adapter, but several other options are available.
 
-It's a simple process, but not without some hitches. Today I wanna talk about an accessibility issue I ran into with the Markdown parser, how I fixed it, and what I learned in the process. I'll walk through each piece of this, but I'm mainly gonna spend some time at step #3.
+It's a simple process, but not without some hitches. Today I wanna talk about an accessibility issue I ran into with the Markdown parser, how I fixed it, and what I learned in the process. I'll walk through each piece of this, but I'm mainly gonna spend some time at step #3. But if you just wanna see the final product, you can [skip to the end](#finished).
 
 ## Writing in Markdown
 
@@ -385,7 +385,7 @@ visit(tree, "element", (node, _, parent) => {
             },
         };
 
-        figure.children = [imgContainer]
+        figure.children.push(imgContainer)
 
         parent = figure;
     }
@@ -465,7 +465,7 @@ export const pictureWrapper = function () {
                     },
                 };
 
-                figure.children = [imgContainer]
+                figure.children.push(imgContainer)
 
                 // todo: figcaption
 
@@ -549,10 +549,10 @@ _This is a caption to accompany the image._
 At this point I realized it was probably better to just grab the specific node, rather than do magic-number indexing.
 
 ```javascript
-if (
-        parent.children.length > 1 &&
-        parent.children.some(c => c.tagName === "em")
-   ) {
+const captionNode = parent.children.find(
+    (e) => e.tagName === "em",
+);
+if (captionNode) {
     const contentNode = parent.children.find(e => e.tagName === "em")
     // ... do stuff
 }
@@ -561,10 +561,7 @@ if (
 Finally, I build the `<figcaption>` element and add it to the children of the `<figure>`:
 
 ```javascript
-if (
-        parent.children.length > 1 &&
-        parent.children.some(c => c.tagName === "em")
-   ) {
+if (captionNode) {
     const figCaption = {
         type: "element",
         tagName: "figcaption",
@@ -575,13 +572,15 @@ if (
 }
 ```
 
+<span id="finished"></span>
+
 ## The complete Rehype plugin
 
 ```javascript
 // pictureWrapper.js
 
-import { visit, CONTINUE } from "unist-util-visit";
 
+import { visit, CONTINUE } from "unist-util-visit";
 /**
  * @typedef {import('hast').Root} Root
  * @typedef {import('hast').Element} Element
@@ -590,7 +589,7 @@ import { visit, CONTINUE } from "unist-util-visit";
 /**
  * @returns {(tree: Root) => void}
  */
-export const pictureWrapper = function() {
+export const pictureWrapper = function () {
     return (tree) => {
         visit(tree, "element", (node, _, parent) => {
             if (node.tagName === "img") {
@@ -612,19 +611,19 @@ export const pictureWrapper = function() {
                     },
                 };
 
-                figure.children = [imgContainer];
+                figure.children.push(imgContainer);
 
                 // Figure caption is an `<em>` in the same containing block as the `<img>`
-                if (
-                    parent.children.length > 1 &&
-                    parent.children.some(c => c.tagName === "em")
-                ) {
-                    const captionNode = parent.children.find(e => e.tagName === "em")
+                const captionNode = parent.children.find(
+                    (e) => e.tagName === "em",
+                );
+                if (captionNode) {
+                    /** @type {Element} figCaption */
                     const figCaption = {
                         type: "element",
                         tagName: "figcaption",
-                        children: captionNode,
                         properties: {},
+                        children: captionNode.children,
                     };
                     figure.children.push(figCaption);
                 }
@@ -635,6 +634,8 @@ export const pictureWrapper = function() {
         });
     };
 };
+
+
 ```
 
 Just stuff it in the config file and I'm done!
@@ -659,8 +660,7 @@ const config = {
 ```
 
 ## Plugin improvements
-
-This solved my problem in the fastest way possible, and also gave me a good foundation for understanding ASTs and writing unist plugins. But I can already see the issues I'd wanna address further down the line.
+This solved my problem in the fastest way possible, and also gave me a good foundation for understanding ASTs and writing unist plugins. But I can already see the issues I'd wanna address further down the line. So for another day:
 
 ### Better Structure
 
@@ -677,6 +677,6 @@ Maybe I'd like to put an inline ![logo](logo.png) image here? _Maybe?_
 </figure>
 ```
 
-The plugin _only_ grabs the image and the italicized block, discarding everything else. If I ever wanna use
+The plugin _only_ grabs the image and the italicized block, discarding everything else. If I ever wanna use an inline image, it's gonna cause some issues. To fix this, I'll need to get more opinionated about how I structure my Markdown.
 
-### 
+

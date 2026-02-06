@@ -7,7 +7,7 @@ import { visit, CONTINUE } from "unist-util-visit";
 /**
  * @returns {(tree: Root) => void}
  */
-export const pictureWrapper = function() {
+export const pictureWrapper = function () {
     return (tree) => {
         visit(tree, "element", (node, _, parent) => {
             if (node.tagName === "img") {
@@ -29,19 +29,19 @@ export const pictureWrapper = function() {
                     },
                 };
 
-                figure.children = [imgContainer];
+                figure.children.push(imgContainer);
 
                 // Figure caption is an `<em>` in the same containing block as the `<img>`
-                if (
-                    parent.children.length > 1 &&
-                    parent.children.some(c => c.tagName === "em")
-                ) {
-                    const captionNode = parent.children.find(e => e.tagName === "em")
+                const captionNode = parent.children.find(
+                    (e) => e.tagName === "em",
+                );
+                if (captionNode) {
                     /** @type {Element} figCaption */
                     const figCaption = {
                         type: "element",
                         tagName: "figcaption",
-                        children: captionNode,
+                        properties: {},
+                        children: captionNode.children,
                     };
                     figure.children.push(figCaption);
                 }
