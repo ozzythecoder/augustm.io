@@ -9,9 +9,7 @@
     const { data }: PageProps = $props();
 </script>
 
-<Head
-    {...data.ogData}
-/>
+<Head {...data.ogData} />
 
 {#if dev && data.wordCount}
     <div
@@ -34,7 +32,7 @@
                 >{formatDate(data.metadata.date)}</date
             >
             <nav class="flex flex-row gap-1 flex-wrap">
-                {#each data.metadata.tags as tag}
+                {#each data.metadata.tags || [] as tag}
                     <a
                         href={`/blog?tag=${tag}`}
                         class="chip preset-filled-surface-200-800"
