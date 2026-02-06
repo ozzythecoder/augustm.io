@@ -1,34 +1,53 @@
-import { visit } from "unist-util-visit";
+import { visit, CONTINUE } from "unist-util-visit";
+/**
+ * @typedef {import('hast').Root} Root
+ * @typedef {import('hast').Element} Element
+ */
 
-export const pictureWrapper = function () {
+/**
+ * @returns {(tree: Root) => void}
+ */
+export const pictureWrapper = function() {
     return (tree) => {
-        visit(tree, "element", (node, index, parent) => {
+        visit(tree, "element", (node, _, parent) => {
             if (node.tagName === "img") {
-                const picture = {
+                /** @type {Element} figure */
+                const figure = {
+                    ...parent,
                     type: "element",
-                    tagName: "picture",
-                    children: [node],
-                    properties: {},
+                    tagName: "figure",
+                    children: [],
                 };
 
-                parent.children[index] = picture;
-                parent.tagName = "figure";
-                parent.properties.style =
-                    "text-align: center; display: flex; flex-direction: column; gap: 0.4rem; max-width: 100dvw;";
+                /** @type {Element} imgContainer */
+                const imgContainer = {
+                    type: "element",
+                    tagName: "div",
+                    children: [node],
+                    properties: {
+                        class: "img-container",
+                    },
+                };
 
-                // Figure caption is determined by the presence of an <em> element directly under the figure
+                figure.children = [imgContainer];
+
+                // Figure caption is an `<em>` in the same containing block as the `<img>`
                 if (
                     parent.children.length > 1 &&
-                    parent.children[1].tagName === "em"
+                    parent.children.some(c => c.tagName === "em")
                 ) {
-                    const figcaption = {
+                    const captionNode = parent.children.find(e => e.tagName === "em")
+                    /** @type {Element} figCaption */
+                    const figCaption = {
                         type: "element",
                         tagName: "figcaption",
-                        children: parent.children.slice(1),
-                        properties: {},
+                        children: captionNode,
                     };
-                    parent.children = [picture, figcaption];
+                    figure.children.push(figCaption);
                 }
+
+                Object.assign(parent, figure);
+                return CONTINUE;
             }
         });
     };

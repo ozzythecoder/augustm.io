@@ -53,7 +53,9 @@ const rules: Array<Rule> = [
 export async function lint() {
     console.log(`\nLinting svx files in ${POSTS_DIR}...`);
     const files = Array.from(Deno.readDirSync(POSTS_DIR))
-        .filter((entry) => entry.isFile && entry.name.endsWith(".svx"))
+        .filter((entry) =>
+            entry.isFile
+            && (entry.name.endsWith(".svx") || entry.name.endsWith(".md")))
         .map((entry) => entry.name);
     let hasErrors = false;
     const errors: Array<string> = [];

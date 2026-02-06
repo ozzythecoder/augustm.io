@@ -21,7 +21,16 @@
     --base-font-family: "Hanken Grotesk Variable", monospace;
     --monospace-font-family: "Monaspace Xenon", monospace;
 
+    /* Page background in a way that iOS won't ruin */
     #container {
+        position: relative;
+    }
+
+    #container::before {
+        content: "";
+        position: fixed;
+        inset: 0;
+        z-index: -1;
         background-image:
             radial-gradient(
                 at 14% 25%,
@@ -51,14 +60,13 @@
                     0px,
                 transparent 30%
             );
-        background-attachment: fixed;
-
-        /* proper backgorund attachment on iOS */
-        @media only screen and (min-width: 414px) and (max-width: 427px) and (webkit-min-device-pixel-ratio: 2) {
-            background-attachment: scroll;
-        }
+        pointer-events: none;
     }
 
+    /* prevent layout shift from scrollbar gutter */
+    scrollbar-gutter: stable;
+
+    /* Glass blur background */
     .preset-glass-neutral {
         background: color-mix(
             in oklab,
@@ -82,7 +90,7 @@
 }
 
 @utility prose-blog {
-    @apply prose dark:prose-invert max-w-[90ch] prose-lg prose-li:my-1 prose-p:my-4 mx-auto pb-12 prose-hr:my-8 prose-headings:mt-8;
+    @apply prose dark:prose-invert max-w-[90ch] prose-lg prose-li:my-1 prose-p:my-4 mx-auto pb-12 prose-hr:my-8 prose-headings:mt-8 prose-code:before:content-[""] prose-code:after:content-[""];
 }
 
 body {
@@ -93,10 +101,6 @@ body {
         font-family: var(--heading-font-family);
         @apply font-semibold tracking-tight;
     }
-
-    /* prevent layout shift from scrollbar gutter */
-    width: 100vw;
-    left: calc((100vw - 100%) / 2);
 
     li > ul {
         margin-block: 0;

@@ -1,6 +1,6 @@
 ---
 title: "What is the internet?"
-date: 01/30/2026
+date: 02/03/2026
 description: "How does a website even work? How could a loving god cause such agony?"
 tags:
     - personal
