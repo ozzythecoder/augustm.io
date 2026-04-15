@@ -4,9 +4,13 @@ date: 02/03/2026
 description: "How does a website even work? How could a loving god cause such agony?"
 tags:
     - personal
-    - tech
+    - software
+    - music
     - social media
 ---
+<script>
+    import Signature from './Signature.svelte'
+</script>
 
 One of the smaller heartbreaks of my teenage years was the push to move from Myspace to Facebook. I remember distinctly the collective disappointment that you couldn't personalize your page at all. No decorative cursors, no maximalist fonts, you couldn't even change the background color of your page. (That last point has shifted in recent years, now that dark mode is a non-negotiable for accessibility. And that's all the credit I'll ever give Facebook.)
 
@@ -78,7 +82,7 @@ As with any other part of modern America, a better world lies behind a dizzying 
 
 The points I've listed above are just a tiny line of silver, one potential avenue that could get us closer. It's imperfect, and it's subject to change. I just wanna talk about it more. I wanna talk to *you* more. So see you next time?
 
-<span class="h5 pl-4">august m</span>
+<Signature />
 
 ---
 
