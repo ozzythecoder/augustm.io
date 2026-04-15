@@ -9,29 +9,11 @@
 <Main>
     <h1 class="h1">{TITLE}</h1>
     <h3 class="h3">Under construction</h3>
-    <img
-        src="/images/pickaxe_construction.gif"
-        alt=""
-        class="inline"
-    />
-    <img
-        src="/images/rotating_construction.gif"
-        alt=""
-        class="inline"
-    />
-    <img
-        src="/images/small_construction.gif"
-        alt=""
-        class="inline"
-    />
-    <img
-        src="/images/small_construction.gif"
-        alt=""
-        class="inline"
-    />
-    <img
-        src="/images/small_construction.gif"
-        alt=""
-        class="inline"
-    />
+    <div>
+        <img src="/images/pickaxe_construction.gif" alt="" class="inline" />
+        <img src="/images/rotating_construction.gif" alt="" class="inline" />
+        <img src="/images/small_construction.gif" alt="" class="inline" />
+        <img src="/images/small_construction.gif" alt="" class="inline" />
+        <img src="/images/small_construction.gif" alt="" class="inline" />
+    </div>
 </Main>
