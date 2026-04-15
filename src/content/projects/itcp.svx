@@ -1,0 +1,25 @@
+---
+title: Website and Content Management System
+client: Institute to Transform Child Protection
+categories: 
+    - software
+start_date: September 2024
+end_date: July 2025
+priority: 10
+tags:
+    - react
+    - nextjs
+    - typescript
+    - tailwindcss
+    - figma
+    - payloadcms
+---
+
+Contract position for the non-profit organization ITCP. Redesigned, developed, and briefly maintained a website and CMS. Handled all aspects of project execution, including
+- Scope, project planning and management
+- Negotiating payment and projec timeline, and providing updates throughout
+- Designing and presenting wireframes in alignment with brand guidelines
+- Full-stack development with Next.js, using [Payload](https://payloadcms.com) as the CMS framework
+- Automated deployment using Github Actions and DigitalOcean droplets
+
+Project was taken offline and archived when the organization was sunset.

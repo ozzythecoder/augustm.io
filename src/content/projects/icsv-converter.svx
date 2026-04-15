@@ -1,0 +1,13 @@
+---
+title: CSV to ISC Converter
+start_date: March 2026
+categories:
+    - software
+tags:
+    - rust
+    - data analysis
+---
+
+Building a small desktop application for my company, to convert our inventory job sheets into a legible calendars. My tool parses the data from an exported CSV, and converts each entry into a calendar event according to the [RFC 5545 ICalendar standard](https://datatracker.ietf.org/doc/html/rfc5545). The resulting ISC file can easily be dragged-and-dropped into an Outlook calendar or equivalent.
+
+- Built in Rust, using the [iced](https://iced.rs/) framework for graphical interface.
