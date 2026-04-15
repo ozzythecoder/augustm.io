@@ -1,0 +1,69 @@
+/* Glass blur backgrounds */
+
+@utility preset-glass-primary {
+    background: color-mix(
+        in oklab,
+        var(--color-primary-300-700) 20%,
+        transparent
+    );
+    box-shadow: 0 0px 18px
+        color-mix(in oklab, var(--color-primary-500) 50%, transparent) inset;
+    backdrop-filter: blur(16px);
+}
+
+@utility inner-shadow-primary {
+    box-shadow: 0 0px 18px
+        color-mix(in oklab, var(--color-primary-500) 50%, transparent) inset;
+}
+
+@utility preset-glass-secondary {
+    background: color-mix(
+        in oklab,
+        var(--color-secondary-300-700) 20%,
+        transparent
+    );
+    box-shadow: 0 0px 18px
+        color-mix(in oklab, var(--color-secondary-500) 50%, transparent) inset;
+    backdrop-filter: blur(16px);
+}
+
+@utility inner-shadow-secondary {
+    box-shadow: 0 0px 18px
+        color-mix(in oklab, var(--color-secondary-500) 50%, transparent) inset;
+}
+
+@utility preset-glass-tertiary {
+    background: color-mix(
+        in oklab,
+        var(--color-tertiary-300-700) 20%,
+        transparent
+    );
+    box-shadow: 0 0px 18px
+        color-mix(in oklab, var(--color-tertiary-500) 50%, transparent) inset;
+    backdrop-filter: blur(16px);
+}
+
+@utility inner-shadow-tertiary {
+    box-shadow: 0 0px 18px
+        color-mix(in oklab, var(--color-tertiary-500) 50%, transparent) inset;
+}
+
+@utility preset-glass-neutral {
+    background: color-mix(
+        in oklab,
+        var(--color-surface-50-950) 30%,
+        transparent
+    );
+
+    box-shadow: light-dark(
+        0 0px 12px color-mix(in oklab, var(--color-surface-50) 10%, transparent),
+        0 0px 30px
+            color-mix(
+                in oklab,
+                var(--color-surface-950) 30%,
+                transparent,
+                inset
+            )
+    );
+    backdrop-filter: blur(16px);
+}
