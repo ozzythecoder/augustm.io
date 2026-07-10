@@ -41,7 +41,7 @@
                     </a>
                 {/each}
             </nav>
-            <p class="h4 text-surface-800-200">{data.metadata.description}</p>
+            <p class="h5 font-normal text-surface-800-200">{data.metadata.description}</p>
         </header>
         <Prose>
             <data.Component />

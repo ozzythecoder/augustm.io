@@ -7,6 +7,6 @@
     let { children }: Props = $props();
 </script>
 
-<div id="container" class="min-h-screen pt-8">
+<div id="container" class="min-h-screen">
     {@render children()}
 </div>

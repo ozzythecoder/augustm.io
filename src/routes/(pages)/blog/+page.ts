@@ -4,7 +4,7 @@ import type { PageLoad } from "./$types";
 import type { Post } from "$src/lib/types";
 
 export const load: PageLoad = async () => {
-    const files = import.meta.glob("$src/posts/*.{md,svx}") as Record<
+    const files = import.meta.glob("$src/content/posts/*.{md,svx}") as Record<
         string,
         () => Promise<Post>
     >;

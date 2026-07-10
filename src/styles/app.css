@@ -10,22 +10,54 @@
 /* Fonts */
 @import "@fontsource-variable/alegreya";
 @import "@fontsource-variable/overpass-mono";
+@import '@fontsource-variable/ballet/opsz.css';
 @import "@fontsource-variable/hanken-grotesk";
 @import "@fontsource/monaspace-xenon";
 
 /* Syntax highlighting for code blocks */
 @import "./syntax.css";
 
+/* Glassy/blurry backgrounds */
+@import "./glass.css";
+
+@layer base {
+    /* prevent layout shift from scrollbar gutter */
+    html {
+        scrollbar-gutter: stable;
+    }
+
+    h1,
+    h2,
+    h3,
+    h4 {
+        font-family: var(--heading-font-family);
+        @apply tracking-tight;
+    }
+
+    li > ul {
+        margin-block: 0;
+    }
+}
+
 [data-theme="crimson"] {
     --heading-font-family: "Alegreya Variable", serif;
-    --base-font-family: "Hanken Grotesk Variable", monospace;
+    --base-font-family: "Hanken Grotesk Variable", sans-serif;
     --monospace-font-family: "Monaspace Xenon", monospace;
+    --body-background-color: oklch(1 0.1 0 / 1);
+    /*--body-background-color: oklch(1 0 0 / 1);*/
 
+    --heading-font-weight: 600;
+
+    a:focus {
+        outline: 2px solid var(--color-pink-600);
+    }
+    
     /* Page background in a way that iOS won't ruin */
     #container {
         position: relative;
     }
-
+    
+    /* Gradient splat */
     #container::before {
         content: "";
         position: fixed;
@@ -37,7 +69,7 @@
                 color-mix(
                         in oklab,
                         light-dark(
-                                var(--color-tertiary-500),
+                                var(--color-yellow-200),
                                 var(--color-primary-800)
                             )
                             30%,
@@ -51,10 +83,10 @@
                 color-mix(
                         in oklab,
                         light-dark(
-                                var(--color-fuchsia-700),
+                                var(--color-blue-900),
                                 var(--color-teal-700)
                             )
-                            20%,
+                            33%,
                         transparent
                     )
                     0px,
@@ -62,47 +94,25 @@
             );
         pointer-events: none;
     }
-
-    /* prevent layout shift from scrollbar gutter */
-    scrollbar-gutter: stable;
-
-    /* Glass blur background */
-    .preset-glass-neutral {
-        background: color-mix(
-            in oklab,
-            var(--color-surface-50-950) 30%,
-            transparent
-        );
-
-        box-shadow: light-dark(
-            0 0px 12px
-                color-mix(in oklab, var(--color-surface-50) 10%, transparent),
-            0 0px 30px
-                color-mix(
-                    in oklab,
-                    var(--color-surface-950) 30%,
-                    transparent,
-                    inset
-                )
-        );
-        backdrop-filter: blur(16px);
-    }
 }
 
+@utility font-cursive {
+    font-family: "Ballet Variable", cursive;
+}
+
+@utility font-base {
+    font-family: var(--base-font-family);
+}
+
+@utility font-code {
+    font-family: var(--monospace-font-family);
+}
+
+@utility font-heading {
+    font-family: var(--heading-font-family)
+}
+
+/* Lord help me for I have used tailwindcss/typography */
 @utility prose-blog {
     @apply prose dark:prose-invert max-w-[90ch] prose-lg prose-li:my-1 prose-p:my-4 mx-auto pb-12 prose-hr:my-8 prose-headings:mt-8 prose-code:before:content-[""] prose-code:after:content-[""];
-}
-
-body {
-    h1,
-    h2,
-    h3,
-    h4 {
-        font-family: var(--heading-font-family);
-        @apply font-semibold tracking-tight;
-    }
-
-    li > ul {
-        margin-block: 0;
-    }
 }

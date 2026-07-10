@@ -1,5 +1,5 @@
 <script lang="ts">
-	import './app.css';
+	import '$src/styles/app.css';
 	import "@fontsource-variable/overpass-mono";
 	import favicon from '$lib/assets/favicon.svg';
 

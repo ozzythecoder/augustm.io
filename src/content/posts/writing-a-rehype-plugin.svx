@@ -1,14 +1,17 @@
 ---
 title: Writing my first Rehype plugin
-date: 02/03/2026
+date: 04/15/2026
 description: "Augmenting my personal site by adding a simple plugin to its markdown processor."
-draft: true
 tags:
-    - tech
+    - software
     - building in public
 ---
 
-I'm a big fan of Markdown. A plain-text document standard that can be styled in whatever way you want while still retaining structure like headings, paragraphs, and bold and italics. This blog is written in .md files, which are converted to [Svelte](https://svelte.dev) components, and then to html. Broadly speaking, the process looks like this:
+<script>
+    import Signature from './Signature.svelte'
+</script>
+
+I'm a big fan of Markdown. A plain-text document standard that can be styled in whatever way you want while still retaining structure like headings, paragraphs, and bold and italics. This blog is written in .md files, which are converted to [Svelte](https://svelte.dev) components, and then to html. At a high level, the process looks like this:
 
 1. Write post content in `.md` files. Simple stuff.
 1. A loader function in `+page.ts` grabs each `.md` file from the file system.
@@ -20,16 +23,14 @@ It's a simple process, but not without some hitches. Today I wanna talk about an
 
 ## Writing in Markdown
 
-[Neovim](https://neovim.io) is my text editor of choice. At the moment, I'm a *little* burnt out on constantly configuring it, and I've been enjoying [Zed](https://zed.dev) for it's quality of life features and robust Vim engine. That being said, I always come back to Neovim when I need to jump quickly between writing and working in the terminal, and Markdown files are a natural part of this process.
+[Neovim](https://neovim.io) is my text editor of choice. At the moment, I'm a _little_ burnt out on constantly configuring it, and I've been enjoying [Zed](https://zed.dev) for its quality of life features and robust Vim engine. That being said, I always come back to Neovim when I need to jump quickly between writing and working in the terminal, and Markdown files are a natural part of this process.
 
 All I need to do is write my content in plain text, with some specific formatting:
 
 ```markdown
 ## Writing in Markdown
 
-[Neovim](https://neovim.io) is my text editor of choice. At the moment, I'm a *little* burnt out on constantly configuring it, and I've been enjoying [Zed](https://zed.dev) for it's quality of life features and robust Vim engine. That being said, I always come back to Neovim when I need to jump quickly between writing and working in the terminal, and Markdown files are a natural part of this process.
-
-All I need to do is write my content in plain text, with some specific formatting:
+[Neovim](https://neovim.io) is my text editor of choice. At the moment, I'm a _little_ burnt out on constantly configuring it, and I've been enjoying [Zed](https://zed.dev) for its quality of life features and robust Vim engine. That being said...
 ```
 
 And now I have a structured document, ready to send to a processor.
@@ -39,6 +40,7 @@ With a free, open source, unopinionated format like this, that's also easily ing
 ## Loading Markdown
 
 The very first step of the rendering pipeline is simple enough: load the file from disk. I keep my blog posts committed to the same repository as my website code:
+
 ```
 src/
 ├── routes/
@@ -84,11 +86,11 @@ export const load: PageLoad = async ({ params }) => {
     return {
         metadata,
         Component,
-    }; // this is sent to the $props().data field in +page.svelte
+    }; // this object is sent to the $props().data field in +page.svelte
 };
 ```
 
-Mdsvex, the markdown preprocessor, has already done some nice work behind the scenes here. Importing the files gives a Promise that resolves to a Svelte module, without needing to call any intermediate steps. Mdsvex also supports its own `.svx` extension, allowing me to use Svelte components inside of markdown files, similarly to [MDX in React](https://mdxjs.org). I tend to not use this, but it was easy enough to add support for it.
+Mdsvex, the markdown preprocessor, has already done some nice work behind the scenes here. Importing the files gives a Promise that resolves to a Svelte module, without needing to call any intermediate steps. Mdsvex also supports its own `.svx` extension, allowing me to use Svelte components inside of markdown files, similarly to [MDX in React](https://mdxjs.org). (fun fact: the signature at the bottom of this post is a Svelte component!)
 
 The `Component` field is self-explanatory, but what does that metadata field contain? For that, I use a convention known as [frontmatter](https://www.markdownlang.com/advanced/frontmatter.html), which is just arbitrary YAML data at the top of the document, enclosed between two lines of three dashes. Mdsvex grabs this data automatically, and includes it in the module import.
 
@@ -104,6 +106,7 @@ tags:
 ```
 
 To keep type-safety throughout, I also created a type definition for the metadata:
+
 ```typescript
 // types.ts
 export interface PostMetadata extends Record<string, unknown> {
@@ -121,14 +124,13 @@ export interface Post {
 // +page.ts
 // ...
 const files = import.meta.glob("/src/posts/*.{md,svx}") as Record<
-    string,             // path & file name
+    string, // path & file name
     () => Promise<Post> // post module
 >;
 // ...
 ```
 
 I would love to use this interface in my Markdown files, so that I could get an error in my editor if I forget to add one of the required fields, but I haven't looked into that yet. To tide me over, I wrote a small linting script to check all my files for missing metadata, and throw an error if I missed one.
-
 
 ```typescript
 interface Rule {
@@ -174,7 +176,7 @@ export async function lint() {
             console.error("Failed to compile post:", file);
             return { passed: false, errors: [""] };
         }
-        const fm = compiled.data.fm as PostMetadata
+        const fm = compiled.data.fm as PostMetadata;
 
         for (const rule of rules) {
             // linting error
@@ -189,10 +191,11 @@ export async function lint() {
 }
 ```
 
-This is a bit hacky, but it allows me to keep the repo light and not need to introduce a database to my stack *just* yet--I know I'll need to go down that road eventually...
+This is a bit hacky, but it allows me to keep the repo light and not need to introduce a database to my stack _just_ yet--I know I'll need to go down that road eventually...
 
-## Processing Markdown and the missing `<figure>`
-So the good news is the processing has already happened! ...but that's also the bad news. While I have *decent* control of the CSS, the HTML of the page was generated way earlier, and it isn't exactly what I want it to be. While it may *look* good to a sighted person, a lackluster semantic structure could cause real issues for people using assistive technology like screen readers, or browser extensions to help with legibility.
+## Processing Markdown and the missing &lt;figure&gt;
+
+So the good news is the processing has already happened! ...but that's also the bad news. While I have _decent_ control of the CSS, the HTML of the page was generated way earlier, and it isn't exactly what I want it to be. While it may _look_ good to a sighted person, a lackluster semantic structure could cause real issues for people using assistive technology like screen readers, or browser extensions to help with legibility.
 
 The first issue I ran into had to do with images. Markdown has only one syntax for adding images:
 
@@ -205,7 +208,10 @@ The processor (correctly) doesn't make assumptions about the semantic purpose of
 
 ```html
 <p>
-    <img src="https://assets.cdn.example.com/image.jpg" alt="Some descriptive text" />
+    <img
+        src="https://assets.cdn.example.com/image.jpg"
+        alt="Some descriptive text"
+    />
     This is a caption to accompany the image.
 </p>
 ```
@@ -214,23 +220,27 @@ The W3C guidelines are pretty clear about how to semantically associate [informa
 
 ```html
 <figure>
-    <img src="https://assets.cdn.example.com/image.jpg" alt="Some descriptive text" />
+    <img
+        src="https://assets.cdn.example.com/image.jpg"
+        alt="Some descriptive text"
+    />
     <figcaption>This is a caption to accompany the image.</figcaption>
 </figure>
 ```
 
-Now I *could* just write out this HTML as is. In theory I could just write every blog entry as raw markup. But I'm trying to build something for my problem-solving brain to get out of the way, so my writing brain can take over, so the less boilerplate, the better. 
+Now I _could_ just write out this HTML as is. In theory I could just write every blog entry as raw markup. But I'm trying to build something for my problem-solving brain to get out of the way, so my writing brain can take over, so the less boilerplate, the better.
 
 But this means I gotta get into the guts of markdown processing, and man, I was not expecting this rabbit hole.
 
 ### Du Hast Mich
 
 There is a multi-step process happening each time a .md file is transformed to a web page.
+
 1. Parse the markdown from a file into a string
-1. Transform the string into a Markdown Abstract Syntax Tree (MDAST) 
+1. Transform the string into a Markdown Abstract Syntax Tree (MDAST)
 1. Apply plugin changes to the MDAST
-1. Translate the MDAST into an HTML Abstract Syntax Tree (HAST) 
-1. Apply plugin changes to the HAST 
+1. Translate the MDAST into an HTML Abstract Syntax Tree (HAST)
+1. Apply plugin changes to the HAST
 1. Transform the HAST into stringified HTML, and send to the Svelte compiler to render.
 
 The MDAST and HAST are based on [unist](https://github.com/syntax-tree/unist), a standardized spec for syntax trees. Simply put, it's a standard for how to break a structured language into a javascript object, and perform operations on it.
@@ -273,15 +283,13 @@ Yes, this is why I never get anything done.
 
 ### Writing the plugin
 
-And finally, the reason for this blog post.
-
 Looking at some example Rehype plugins, they all have one thing in common: a utility function called `visit`. This function comes from syntax-tree, the same maintainers as `unist`. I know I didn't want anymore third-party deps, but looking at the source code, it is so minimal that I feel okay installing it. [(The entire package is a single function in one file, and 90% of that file is just JSDoc type declarations.)](https://github.com/syntax-tree/unist-util-visit/blob/main/lib/index.js)
 
 The `visit` function takes the AST, the type of node to check, and a callback function. It then walks down the syntax tree and runs a callback function on each node. A Rehype plugin is just a higher oder function that feeds the tree to its curried function. So by adding this to my svelte config:
 
 ```javascript
-import { mdsvex } from 'mdsvex';
-import { visit } from 'unist-utils-visit';
+import { mdsvex } from "mdsvex";
+import { visit } from "unist-utils-visit";
 
 /** @type {import('@sveltejs/kit').Config} */
 const config = {
@@ -291,9 +299,11 @@ const config = {
             rehypePlugins: [
                 function () {
                     return (tree) => {
-                        visit(tree, "element", () => console.log("Visited node"))
-                    }
-                }
+                        visit(tree, "element", () =>
+                            console.log("Visited node"),
+                        );
+                    };
+                },
             ],
         }),
     ],
@@ -302,6 +312,7 @@ const config = {
 ```
 
 My console reads:
+
 ```sh
 Visited node
 Visited node
@@ -321,12 +332,13 @@ export function figureWrapper() {
             // - If there's a caption immediately next to the `<img>`,
             //     - wrap the caption in a `<figcaption>`
             //     - include the caption in the `<figure>`
-        })
-    }
+        });
+    };
 }
 ```
 
 I usually prefer to work in Typescript, but I don't wanna deal with a transpile step just for this plugin, so I'll be using JSDoc and importing some type definitions from the `hast` package.
+
 ```javascript
 /**
  * @typedef {import('hast').Root} Root
@@ -344,9 +356,8 @@ export function figureWrapper() {
 The callback function (or "visitor") in `visit` receives three arguments - the node being visited, the index of the node, and the node's parent. I don't need the index, so I'll replace that parameter with an underscore.
 
 ```javascript
-visit(tree, "element", (node, _, parent) => { })
+visit(tree, "element", (node, _, parent) => {});
 ```
-
 
 The whole `unist` ecosystem utilizes some great type definitions, so `node` is correctly narrowed down to be type `Element`, which represents an HTML element on the syntax tree. This gives some nice autocomplete, and allows me to see the `tagName` property. So now we
 
@@ -355,7 +366,7 @@ visit(tree, "element", (node, _, parent) => {
     if (node.tagName === "img") {
         // figcaption stuff
     }
-})
+});
 ```
 
 **2. Wrap each `<img>` tag in a `<figure>`**
@@ -373,7 +384,7 @@ visit(tree, "element", (node, _, parent) => {
             tagName: "figure",
             children: [],
             properties: {},
-        }
+        };
 
         /** @type {Element} imgContainer */
         const imgContainer = {
@@ -385,11 +396,11 @@ visit(tree, "element", (node, _, parent) => {
             },
         };
 
-        figure.children.push(imgContainer)
+        figure.children.push(imgContainer);
 
         parent = figure;
     }
-})
+});
 ```
 
 - `figure` is the semantic HTML that will capture both the image and its caption.
@@ -400,7 +411,10 @@ Finally, I set the parent node equal to `figure`. So now, the rendered html shou
 ```html
 <figure>
     <div class="img-container">
-        <img src="https://assets.cdn.example.com/image.jpg" alt="Some descriptive text" />
+        <img
+            src="https://assets.cdn.example.com/image.jpg"
+            alt="Some descriptive text"
+        />
     </div>
 </figure>
 ```
@@ -411,22 +425,19 @@ Finally, I set the parent node equal to `figure`. So now, the rendered html shou
 
 Nope. Looking at my HTML, absolutely nothing has changed.
 
-Turns out that last line, `parent = figure`, does nothing! And neither does `parent = { ...figure }`. What the hell!
-
-What makes it even more confounding is that my original approach before writing this article, which I thought was more naive, *does* work:
+Turns out that last line, `parent = figure`, does nothing! And neither does `parent = { ...figure }`. What the hell! What makes it even more confounding is that my original approach before writing this article, which I thought was more naive, _does_ work:
 
 ```javascript
-parent.tagName = "figure"
-parent.children = figure.children
+parent.tagName = "figure";
+parent.children = figure.children;
 ```
 
-I had a feeling this was something about how Javascript handles object references, and I was right! 
+I had a feeling this was something about how Javascript handles object references, and I was right!
 
-`parent`, in this callback function, is a reference to the original object, which in another language would be exactly what I want. But reassigning the variable itself just mutates the *local reference*, while reassigning its *properties* mutates the original object.
+`parent`, in this callback function, is a reference to the original object, which in another language would be exactly what I want. But reassigning the variable itself just mutates the _local reference_, while reassigning its _properties_ mutates the original object. Schrodinger's fucking object pointer??
 
-🫩
-
-Okay. Sure man, fuck it, why not. Let's do that. Let's just write our whole stack on this ridiculous language.
+![A screaming cat](https://ozzy.sfo3.cdn.digitaloceanspaces.com/blog-assets/screaming-cat.png)
+_Javascript is a normal language with sane defaults and no psychological side effects_
 
 Thankfully, in order to not have to reassign every variable one by one, I can just do `Object.assign(parent, figure)`. And for completeness's sake, I'll explicitly return the plugin's `CONTINUE` directive.
 
@@ -453,7 +464,7 @@ export const pictureWrapper = function () {
                     tagName: "figure",
                     children: [],
                     properties: {},
-                }
+                };
 
                 /** @type {Element} imgContainer */
                 const imgContainer = {
@@ -465,16 +476,16 @@ export const pictureWrapper = function () {
                     },
                 };
 
-                figure.children.push(imgContainer)
+                figure.children.push(imgContainer);
 
                 // todo: figcaption
 
-                Object.assign(parent, figure)
+                Object.assign(parent, figure);
                 return CONTINUE;
             }
-        })
-    }
-}
+        });
+    };
+};
 ```
 
 **3. Wrap any existing caption**
@@ -487,12 +498,12 @@ Markdown doesn't have a dedicated syntax for image captions, so for now, I'm goi
 
 ```javascript
 if (parent.children.length > 1) {
-    const contentNode = parent.children[1]
+    const contentNode = parent.children[1];
     // ... do stuff
 }
 ```
 
-But this is one of the *small* gotchas. I couldn't get the results I wanted out of this, so I went ahead and took a look at `parent.children` in a console, and...
+But this is one of the _small_ gotchas. I couldn't get the results I wanted out of this, so I went ahead and took a look at `parent.children` in a console, and...
 
 ```json
 [
@@ -539,7 +550,7 @@ But this is one of the *small* gotchas. I couldn't get the results I wanted out 
 ]
 ```
 
-There is a *single space* of text between the `<img>` and the `<em>` tag underneath it. I think this just happens because of the line break in the Markdown text:
+There is a _single space_ of text between the `<img>` and the `<em>` tag underneath it. I think this just happens because of the line break in the Markdown text:
 
 ```markdown
 ![Some descriptive text](https://assets.cdn.example.com/image.jpg) !HERE!
@@ -549,11 +560,9 @@ _This is a caption to accompany the image._
 At this point I realized it was probably better to just grab the specific node, rather than do magic-number indexing.
 
 ```javascript
-const captionNode = parent.children.find(
-    (e) => e.tagName === "em",
-);
+const captionNode = parent.children.find((e) => e.tagName === "em");
 if (captionNode) {
-    const contentNode = parent.children.find(e => e.tagName === "em")
+    const contentNode = parent.children.find((e) => e.tagName === "em");
     // ... do stuff
 }
 ```
@@ -565,7 +574,7 @@ if (captionNode) {
     const figCaption = {
         type: "element",
         tagName: "figcaption",
-        children: parent.children.find(e => e.tagName === "em"),
+        children: parent.children.find((e) => e.tagName === "em"),
         properties: {},
     };
     figure.children.push(figCaption);
@@ -578,7 +587,6 @@ if (captionNode) {
 
 ```javascript
 // pictureWrapper.js
-
 
 import { visit, CONTINUE } from "unist-util-visit";
 /**
@@ -634,8 +642,6 @@ export const pictureWrapper = function () {
         });
     };
 };
-
-
 ```
 
 Just stuff it in the config file and I'm done!
@@ -660,23 +666,43 @@ const config = {
 ```
 
 ## Plugin improvements
+
 This solved my problem in the fastest way possible, and also gave me a good foundation for understanding ASTs and writing unist plugins. But I can already see the issues I'd wanna address further down the line. So for another day:
 
 ### Better Structure
 
 I'm making some pretty naïve assumptions about my markdown. For instance, the following cases would have some results I don't want:
+
 ```markdown
 Maybe I'd like to put an inline ![logo](logo.png) image here? _Maybe?_
 ```
+
 ```html
+<!-- Maybe I'd like to put an inline -->
 <figure>
     <div class="img-container">
         <img src="logo.png" alt="logo" />
     </div>
+    <!-- image here? -->
     <figcaption>Maybe?</figcaption>
 </figure>
 ```
 
-The plugin _only_ grabs the image and the italicized block, discarding everything else. If I ever wanna use an inline image, it's gonna cause some issues. To fix this, I'll need to get more opinionated about how I structure my Markdown.
+The plugin _only_ grabs the image and the italicized block, discarding everything else. If I ever wanna use an inline image, it's gonna cause some issues.
 
+### Proper Caption Declaration
 
+To fix this, I'll need to get more opinionated about how I structure my Markdown. Maybe with some sort of custom templating syntax? Or maybe with a custom Svelte component? That's the kind of thing you can do when you're only building a solution for yourself!
+
+```markdown
+![image](image.png)
+%(custom syntax is soooo tasty when you don't have a senior dev in your ear telling you it's unmaintainable)%
+```
+
+## Conclusion - the curse of the tinkerer
+
+Markdown is, according to [the documentation](https://www.markdownlang.com/intro/what-is-markdown.html), meant to be lightweight and easy to read. It powers most technical documentation on the web. So of course here comes a nerd like me to violate the whole philosophy - opinionated enough to want something different, knowledgeable enough to know how to change it, and too stubborn to recognize when I shouldn't waste my time.
+
+Still, I'm thankful to have the weird itch that makes me dig into things this deeply. It's my favorite way to learn, and my favorite way to learn software especially. Give me enough time and I'll have a custom solution that's completely illegible to an outsider. It'll still be faster than Microsoft Word though.
+
+<Signature />

@@ -1,0 +1,14 @@
+---
+title: This website!
+categories: 
+    - software
+start_date: September 2024
+priority: 1
+github: https://github.com/ozzythecoder/augustm.io
+tags:
+    - svelte(kit)
+    - typescript
+    - tailwindcss
+---
+
+This website is a SvelteKit app that renders most of its text via markdown documents. I write blog posts and project entries on my machine, then push to GitHub when I'm done. I store metadata in the markdown [frontmatter](https://www.markdownlang.com/advanced/frontmatter.html), which the app uses for sorting, filtering, and a semi-private draft mode that shows a word count and hides the page from listing. A GitHub Action builds the website and deploys it to a DigitalOcean droplet via ssh.

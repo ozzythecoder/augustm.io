@@ -44,10 +44,13 @@
     ]);
 </script>
 
-<Head title="blog" ogDescription="Yapping about tech, culture, and other things that kinda suck" />
+<Head
+    title="blog"
+    ogDescription="Yapping about tech, culture, and other such dysfunction"
+/>
 
 <Main>
-    <h1 class="h1 my-4 sm:my-8">Blog</h1>
+    <h1 class=" h1 mb-4 sm:mb-8">Blog</h1>
     <div class="flex mb-4 flex-col-reverse gap-4 sm:flex-row">
         <div
             id="tag-selector"
@@ -88,12 +91,13 @@
         {#if sortedPosts.length === 0}
             <h3>No posts found.</h3>
         {:else}
-            <ul class="flex flex-col gap-4 max-w-[80ch] mx-auto">
+            <ul class="flex flex-col gap-4 mx-auto">
                 {#each sortedPosts as post}
                     <Card
                         href={post.url}
                         title={post.data.metadata.title}
-                        className="card card-hover cursor-pointer w-full preset-glass-neutral p-4"
+                        data-tags={post.data.metadata.tags?.join(" ")}
+                        className="card card-hover px-8 py-4 cursor-pointer w-full preset-glass-neutral dark:focus-within:brightness-125 dark:hover:brightness-125"
                     >
                         <date class="italic text-surface-200"
                             >{formatDate(post.data.metadata.date)}</date

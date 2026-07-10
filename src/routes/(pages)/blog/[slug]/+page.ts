@@ -6,12 +6,12 @@ import type { Post } from "$lib/types";
 
 export const load: PageLoad = async ({ params }) => {
     const { slug } = params;
-    const FILES_GLOB = "/src/posts/*";
-    const files = import.meta.glob("/src/posts/*.{md,svx}") as Record<
+    const FILES_GLOB = "/src/content/posts/*";
+    const files = import.meta.glob("/src/content/posts/*.{md,svx}") as Record<
         string,
         () => Promise<Post>
     >;
-    const rawFiles = import.meta.glob("/src/posts/*.{md,svx}", {
+    const rawFiles = import.meta.glob("/src/content/posts/*.{md,svx}", {
         query: "?raw",
         import: "default",
     }) as Record<string, () => Promise<string>>;

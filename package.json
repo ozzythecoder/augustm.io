@@ -38,9 +38,11 @@
 	},
 	"dependencies": {
 		"@fontsource-variable/alegreya": "^5.2.8",
+		"@fontsource-variable/ballet": "^5.2.8",
 		"@fontsource-variable/hanken-grotesk": "^5.2.8",
 		"@fontsource-variable/overpass-mono": "^5.2.8",
 		"@fontsource/monaspace-xenon": "^5.2.5",
+		"@lucide/svelte": "^1.3.0",
 		"rehype-highlight": "^7.0.2"
 	}
 }

@@ -7,6 +7,6 @@
     let { children }: Props = $props();
 </script>
 
-<main id="main" tabindex="-1">
+<main id="main" class="h-full flex flex-col" tabindex="-1">
     {@render children()}
 </main>

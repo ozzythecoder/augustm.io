@@ -8,7 +8,7 @@ interface Rule {
     message: string;
 }
 
-const POSTS_DIR = "src/posts";
+const POSTS_DIR = "src/content/posts";
 
 const rules: Array<Rule> = [
     {
