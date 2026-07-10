@@ -64,11 +64,11 @@
         return () => clearInterval(transitionInterval);
     };
 
-    $effect(
-        window.matchMedia("(prefers-reduced-motion: reduce)").matches
-            ? () => {} // respect reduced motion with empty callback
-            : fontAnimationEffect,
-    );
+    // $effect(
+    //     window.matchMedia("(prefers-reduced-motion: reduce)").matches
+    //         ? () => {} // respect reduced motion with empty callback
+    //         : fontAnimationEffect,
+    // );
 </script>
 
 <div>
