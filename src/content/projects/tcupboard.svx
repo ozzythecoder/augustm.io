@@ -5,7 +5,7 @@ categories:
     - software
 start_date: February 2026
 priority: 10
-github: https://github.com/ozzythecoder/tcupboard
+github: https://github.com/ozzythecoder/tcupboard/tree/develop
 tags:
     - typescript
     - tailwindcss
