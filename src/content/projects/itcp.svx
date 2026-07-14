@@ -5,7 +5,7 @@ categories:
     - software
 start_date: September 2024
 end_date: July 2025
-priority: 10
+priority: 20
 tags:
     - react
     - nextjs

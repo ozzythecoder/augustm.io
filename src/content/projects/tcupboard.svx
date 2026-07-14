@@ -1,0 +1,26 @@
+---
+title: The CUPboard
+client: Twin Cities United Performers
+categories: 
+    - software
+start_date: February 2026
+priority: 10
+github: https://github.com/ozzythecoder/tcupboard
+tags:
+    - typescript
+    - tailwindcss
+    - tanstack
+    - docker
+    - database management
+---
+
+Rebuilding the CUPboard, a resource hub and discussion forum for performers, organized by [Twin Cities United Performers](https://takeactionminnesota.org/twin-cities-united-performers/). Main priorities are:
+- Cutting current hosting costs by an estimated 20% by reducing third-party dependencies and streamlining CI/CD pipeline.
+- Rebuilding all web services, including a campaign announcement/update platform, a database of performer resources, and a content management system for administrators to update the platform.
+- Enhancing user experience through cohesive visual design and improved website performance.
+
+New skills I've learned: 
+- Docker containerization and build orchestration (web server, API server, and CMS run on separate containers)
+- Manual database migration & transfer strategies while moving from Supabase to Neon
+- Monorepo package management (web applications, shared packages and type definitions, and CMS extensions)
+- Typescript configuration over multiple environments (browser, server, and shared code)
